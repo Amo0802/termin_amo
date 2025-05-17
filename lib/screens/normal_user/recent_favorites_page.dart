@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/business.dart';
 import '../../utils/app_colors.dart';
+import 'business_details_page.dart';
 
 class RecentFavoritesPage extends StatelessWidget {
   const RecentFavoritesPage({super.key});
@@ -25,14 +26,14 @@ class RecentFavoritesPage extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
-              _buildRecommendationsList(recommendations.take(5).toList()),
+              _buildRecommendationsList(context, recommendations.take(5).toList()),
               SizedBox(height: 24),
               Text(
                 'Recent',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
-              _buildRecentList(recent),
+              _buildRecentList(context, recent),
             ],
           ),
         ),
@@ -40,7 +41,7 @@ class RecentFavoritesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRecommendationsList(List<Business> recommendations) {
+  Widget _buildRecommendationsList(BuildContext context, List<Business> recommendations) {
     if (recommendations.isEmpty) {
       return Center(
         child: Padding(
@@ -57,69 +58,82 @@ class RecentFavoritesPage extends StatelessWidget {
         itemCount: recommendations.length,
         itemBuilder: (context, index) {
           final business = recommendations[index];
-          return _buildRecommendationCard(business);
+          return _buildRecommendationCard(context, business);
         },
       ),
     );
   }
 
-  Widget _buildRecommendationCard(Business business) {
-    return Container(
-      width: 160,
-      margin: EdgeInsets.only(right: 16),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        elevation: 3,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Placeholder image
-            Container(
-              height: 100,
-              color: Colors.grey[300],
-              child: Center(
-                child: Icon(Icons.business, size: 40, color: Colors.grey[600]),
-              ),
+  Widget _buildRecommendationCard(BuildContext context, Business business) {
+    return GestureDetector(
+      onTap: () {
+        // Navigate to business details page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BusinessDetailsPage(
+              businessId: business.id,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    business.name,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    business.category,
-                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
-                  ),
-                
-                ],
+          ),
+        );
+      },
+      child: Container(
+        width: 160,
+        margin: EdgeInsets.only(right: 16),
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          elevation: 3,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Placeholder image
+              Container(
+                height: 100,
+                color: Colors.grey[300],
+                child: Center(
+                  child: Icon(Icons.business, size: 40, color: Colors.grey[600]),
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      business.name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      business.category,
+                      style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                    ),
+                  
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildRecentList(List<Business> recent) {
+  Widget _buildRecentList(BuildContext context, List<Business> recent) {
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: recent.length,
       itemBuilder: (context, index) {
         final business = recent[index];
-        return _buildRecentCard(business);
+        return _buildRecentCard(context, business);
       },
     );
   }
 
-  Widget _buildRecentCard(Business business) {
+  Widget _buildRecentCard(BuildContext context, Business business) {
     return Card(
       margin: EdgeInsets.only(bottom: 12),
       child: ListTile(
@@ -141,7 +155,14 @@ class RecentFavoritesPage extends StatelessWidget {
         ),
         onTap: () {
           // Navigate to business details
-          // This would be implemented in the real app
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BusinessDetailsPage(
+                businessId: business.id,
+              ),
+            ),
+          );
         },
       ),
     );

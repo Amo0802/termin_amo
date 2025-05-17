@@ -8,6 +8,8 @@ import 'screens/normal_user/profile_page.dart';
 import 'screens/business_user/schedule_page.dart';
 import 'screens/business_user/schedule_settings_page.dart';
 import 'screens/business_user/business_profile_page.dart';
+import 'screens/auth/login_page.dart';
+import 'screens/auth/register_page.dart';
 import 'models/user_type.dart';
 import 'providers/user_provider.dart';
 import 'utils/app_colors.dart';
@@ -60,7 +62,12 @@ class MyApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      home: LoginPage(), // Start with login page instead of HomePage
+      routes: {
+        '/home': (context) => HomePage(),
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

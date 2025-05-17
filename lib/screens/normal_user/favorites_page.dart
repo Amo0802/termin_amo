@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/business.dart';
 import '../../utils/app_colors.dart';
+import 'business_details_page.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
@@ -57,12 +58,8 @@ class FavoritesPage extends StatelessWidget {
                               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                             ),
                             onPressed: () {
-                              // Navigate to search page
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) => Container(), // This would be SearchPage in real app
-                                ),
-                              );
+                              // Navigate to search page - index 2
+                              DefaultTabController.of(context).animateTo(2);
                             },
                           ),
                         ],
@@ -157,7 +154,15 @@ class FavoritesPage extends StatelessWidget {
                           foregroundColor: AppColors.primary,
                         ),
                         onPressed: () {
-                          // View business details
+                          // Navigate to business details page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BusinessDetailsPage(
+                                businessId: business.id,
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -170,7 +175,16 @@ class FavoritesPage extends StatelessWidget {
                           backgroundColor: AppColors.primary,
                         ),
                         onPressed: () {
-                          // Book appointment
+                          // Navigate to book appointment page
+                          // This would be implemented in real app
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BusinessDetailsPage(
+                                businessId: business.id,
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),

@@ -80,7 +80,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                       _selectedMinute = value;
                     });
                   },
-                  step: 5, // 5-minute intervals
+                  step: 15, // 15-minute intervals
                 ),
               ],
             ),

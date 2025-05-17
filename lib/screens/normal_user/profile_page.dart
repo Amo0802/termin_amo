@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_colors.dart';
+import 'package:termin_amo/utils/app_colors.dart';
+import 'profile/change_name_page.dart';
+import 'profile/change_number_page.dart';
+import 'profile/change_password_page.dart';
+import 'profile/about_page.dart';
 
 class ProfilePage extends StatelessWidget {
   // Mock user data
@@ -47,10 +51,18 @@ class ProfilePage extends StatelessWidget {
                             width: 2,
                           ),
                         ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 20,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            // Would handle profile photo upload
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Profile photo functionality coming soon')),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -100,6 +112,10 @@ class ProfilePage extends StatelessWidget {
                       title: 'Change Name',
                       onTap: () {
                         // Navigate to change name screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChangeNamePage()),
+                        );
                       },
                     ),
                     
@@ -111,6 +127,10 @@ class ProfilePage extends StatelessWidget {
                       title: 'Change Number',
                       onTap: () {
                         // Navigate to change number screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChangeNumberPage()),
+                        );
                       },
                     ),
                     
@@ -122,6 +142,10 @@ class ProfilePage extends StatelessWidget {
                       title: 'Change Password',
                       onTap: () {
                         // Navigate to change password screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+                        );
                       },
                     ),
                     
@@ -132,8 +156,11 @@ class ProfilePage extends StatelessWidget {
                       icon: Icons.info_outline,
                       title: 'About',
                       onTap: () {
-                        // Navigate to about screen or show about dialog
-                        _showAboutDialog(context);
+                        // Navigate to about screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AboutPage()),
+                        );
                       },
                     ),
                   ],
@@ -153,7 +180,40 @@ class ProfilePage extends StatelessWidget {
                   ),
                   onPressed: () {
                     // Logout functionality
-                    // API call would go here
+                    // In a real app, this would call an API to logout
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Logout'),
+                          content: Text('Are you sure you want to log out?'),
+                          actions: [
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.error,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: Text('Logout'),
+                              onPressed: () {
+                                // In a real app, navigate to login screen
+                                Navigator.of(context).pop();
+                                
+                                // This is just for demo purposes
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Logged out successfully')),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ),
@@ -185,51 +245,6 @@ class ProfilePage extends StatelessWidget {
       indent: 16,
       endIndent: 16,
       color: AppColors.divider,
-    );
-  }
-
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('About Scheduler'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Scheduler App v1.0.0',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'A scheduling app for businesses and customers to manage appointments efficiently.',
-              ),
-              SizedBox(height: 16),
-              Text(
-                '© 2025 Scheduler Inc.\nAll Rights Reserved',
-                style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Privacy Policy'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Navigate to privacy policy
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
